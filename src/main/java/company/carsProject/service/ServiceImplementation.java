@@ -3,18 +3,25 @@ package company.carsProject.service;
 import java.sql.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import company.carsProject.model.AdminAccount;
 import company.carsProject.model.Car;
 import company.carsProject.model.CarOwner;
 import company.carsProject.model.Insurance;
+import company.carsProject.model.UserAccount;
+import company.carsProject.repositories.UserAccountRepository;
+import company.carsProject.repositories.AdminAccountRepository;
 import company.carsProject.repositories.CarOwnerRepository;
 import company.carsProject.repositories.CarRepository;
 import company.carsProject.repositories.InsuranceRepository;
 
 @Service
-public class ServiceImplementation implements CarService, CarOwnerService, InsuranceService {
+public class ServiceImplementation implements CarService, CarOwnerService, InsuranceService, AccountService {
 
 	@Autowired
 	private CarRepository carRepository;
@@ -22,7 +29,10 @@ public class ServiceImplementation implements CarService, CarOwnerService, Insur
 	private CarOwnerRepository carOwnerRepository;
 	@Autowired
 	private InsuranceRepository insuranceRepository;
-
+	@Autowired
+	private UserAccountRepository userAccountRepository;
+	@Autowired
+	private AdminAccountRepository adminAccountRepository;
 	/**
 	 * This method is used to add car`s insurance to the database.
 	 * 
@@ -147,4 +157,17 @@ public class ServiceImplementation implements CarService, CarOwnerService, Insur
 		return null;
 	}
 
+	@Override
+	public UserAccount addUserAccount(String role, String email, String password, CarOwner carOwner) {
+		UserAccount account = new UserAccount(role,email,password,carOwner);
+		userAccountRepository.save(account);
+		return account;
+	}
+	@Override
+	public AdminAccount addAdminAccount(String role, String email, String password) {
+		AdminAccount account = new AdminAccount(role,email,password);
+		adminAccountRepository.save(account);
+		return account;
+		
+	}
 }

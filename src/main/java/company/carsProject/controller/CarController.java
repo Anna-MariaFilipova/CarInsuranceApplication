@@ -3,6 +3,7 @@ package company.carsProject.controller;
 import java.sql.Date;
 import java.util.Calendar;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -19,9 +20,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import company.carsProject.exceptions.ServiceException;
+import company.carsProject.model.AdminAccount;
 import company.carsProject.model.Car;
 import company.carsProject.model.CarOwner;
 import company.carsProject.model.Insurance;
+import company.carsProject.model.UserAccount;
+import company.carsProject.service.AccountService;
 import company.carsProject.service.CarOwnerService;
 import company.carsProject.service.CarService;
 import company.carsProject.service.InsuranceService;
@@ -40,6 +44,9 @@ public class CarController {
 
 	@Autowired
 	InsuranceService insuranceService;
+	
+	@Autowired
+	AccountService accountService;
 
 	@PostMapping(value = "addCarOwner")
 	public ResponseEntity<CarOwner> addCarOwner(
@@ -113,4 +120,31 @@ public class CarController {
 		return new ResponseEntity<CarOwner>(owner, HttpStatus.OK);
 	}
 
+	@PostMapping(value = "addUser")
+	public ResponseEntity<UserAccount> addUser(
+			@NotEmpty(message = "Please, enter email") @RequestParam(value = "email") String email,
+			@NotEmpty(message = "Please, enter password") @RequestParam(value = "password") String password,
+			@NotEmpty(message = "Please, enter egn") @RequestParam(value = "egn") String egn) {
+		
+		CarOwner owner = carOwnerService.getCarOwnerByEgn(egn);
+		if (owner == null)
+			throw new ServiceException("Does not exist owner with this egn.");
+
+		UserAccount account = new UserAccount();
+		account = accountService.addUserAccount("user", email, password, owner);
+
+		return new ResponseEntity<UserAccount>(account, HttpStatus.OK);
+	}
+
+	@PostMapping(value = "addAdmin")
+	public ResponseEntity<AdminAccount> addAdmin(
+			@Email(message="Please, enter valid email")@NotEmpty(message = "Please, enter email") @RequestParam(value = "email") String email,
+			@NotEmpty(message = "Please, enter password") @RequestParam(value = "password") String password){
+		
+		AdminAccount account = new AdminAccount();
+		account = accountService.addAdminAccount("admin", email, password);
+
+		return new ResponseEntity<AdminAccount>(account, HttpStatus.OK);
+	}
+	
 }
