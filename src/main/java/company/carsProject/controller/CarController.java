@@ -122,7 +122,7 @@ public class CarController {
 
 	@PostMapping(value = "addUser")
 	public ResponseEntity<UserAccount> addUser(
-			@NotEmpty(message = "Please, enter email") @RequestParam(value = "email") String email,
+			@Email(message="Please, enter valid email")@NotEmpty(message = "Please, enter email") @RequestParam(value = "email") String email,
 			@NotEmpty(message = "Please, enter password") @RequestParam(value = "password") String password,
 			@NotEmpty(message = "Please, enter egn") @RequestParam(value = "egn") String egn) {
 		
