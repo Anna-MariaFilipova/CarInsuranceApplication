@@ -2,18 +2,21 @@ package company.carsProject.model;
 
 import java.util.Date;
 
-public class ErrorMessage {
+public class Message {
 
 	private Date timestamp;
 	private String message;
 
-	public ErrorMessage(Date timestamp, String message) {
+	public Message(Date timestamp, String message) {
 		super();
 		this.timestamp = timestamp;
 		this.message = message;
 	}
+	public Message(String message) {
+		this.message=message;
+	}
 
-	public ErrorMessage() {
+	public Message() {
 		super();
 	}
 	public Date getTimestamp() {
