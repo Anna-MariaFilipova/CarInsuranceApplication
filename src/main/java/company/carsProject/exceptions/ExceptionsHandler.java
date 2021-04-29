@@ -40,7 +40,7 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.METHOD_NOT_ALLOWED);
 	}
 
-	@ExceptionHandler(value = { NotFoundException.class })
+	@ExceptionHandler(value = {NotFoundException.class })
 	public ResponseEntity<Object> handleNotFoundExceptionException(Exception ex, WebRequest request) {
 
 		String errorMessageDescription = ex.getLocalizedMessage();
