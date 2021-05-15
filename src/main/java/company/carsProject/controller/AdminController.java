@@ -144,7 +144,7 @@ public class AdminController {
         return new ResponseEntity < Message > (message, HttpStatus.OK);
     }
 
-    @PostMapping(path = "terminateInsurance/{licensePlate}")
+    @PutMapping(path = "terminateInsurance/{licensePlate}")
     public ResponseEntity < Message > terminateInsurance(@PathVariable String licensePlate) {
         Car car = adminService.getCarByLicensePlate(licensePlate);
 
