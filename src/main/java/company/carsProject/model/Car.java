@@ -39,7 +39,7 @@ public class Car implements Serializable {
 	@Column(name = "horsepower")
 	private int horsepower;
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "carOwners_id", nullable = false)
 	private CarOwner carOwner;
 
